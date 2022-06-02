@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import com.example.doanweb.service.EmployeeService;
 import com.example.doanweb.service.IServiceService;
 import com.example.doanweb.service.dto.Role;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -85,21 +88,27 @@ public class IndexController {
 
 
 	@RequestMapping("/admin")
-	public String admin() {
+	public String admin(HttpServletRequest req, Principal principal,Model model) {
+		System.out.println("/admin");
 		Role role= new Role();
+		String username = principal.getName();
+		User loginUser = (User) ((Authentication) principal).getPrincipal();
+		session.setAttribute("role",username);
+		String a =(String) session.getAttribute("role") ;
+		model.addAttribute("roleuser",a);
 		var roleSs= session.getAttribute("role");
 		var roleStr = String.valueOf(roleSs);
+		System.out.println(roleStr);
 		if (roleStr.equals("admin")){
 			role.setRoleName("admin");
 		}else if(roleStr.equals("staff")) {
 			role.setRoleName("staff");
-		}else{
-			role.setRoleName("khachhang");
 		}
 //		return role;
 
 		return "redirect:/admin/templates/index.html";
 	}
+
 
 
 }

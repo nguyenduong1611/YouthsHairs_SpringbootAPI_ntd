@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -29,63 +30,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //Cấp Nguồn DL đăg nhập
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username ->{
+        auth.userDetailsService(username -> {
             try {
                 Account user = aService.findById(username);
                 String password = pe.encode(user.getPassword());
-                String[] roles= user.getAuthorities().stream()
+                System.out.println("password dong 36: " + password);
+                String[] roles = user.getAuthorities().stream()
                         .map(er -> er.getRoleId().getName())
                         .collect(Collectors.toList()).toArray(new String[0]);
 
+                System.out.println("username, password, role ham configure:" + username + password + Arrays.toString(roles));
                 return User.withUsername(username).password(password).roles(roles).build();
-            } catch ( NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
                 throw new UsernameNotFoundException(username + "not found!");
             }
-
         });
     }
-
 
     //Phân Quyền SD
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/admin/**").authenticated()
-                .antMatchers("/admin/**").hasAnyRole("Quản lý","Lễ tân")
+                .antMatchers("/admin/**").hasAnyRole("Quản lý", "Lễ tân")
                 .anyRequest().permitAll();
 //        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/404");
         http.formLogin()
                 .loginPage("/security/login/form")
                 .loginProcessingUrl("/security/login")
-                .defaultSuccessUrl("/security/login/success",false)
+                .defaultSuccessUrl("/security/login/success", false)
                 .failureUrl("/security/login/error");
         http.rememberMe()
                 .tokenValiditySeconds(86400);
         http.logout()
                 .logoutUrl("/security/logoff")
                 .logoutSuccessUrl("/security/logoff/success");
-        // login google
-//        http.authorizeRequests()
-//                .antMatchers("/", "/login", "/oauth/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().permitAll()
-//                .loginPage("/login")
-//                .usernameParameter("email")
-//                .passwordParameter("pass")
-//                .defaultSuccessUrl("/list")
-//                .and()
-//                .oauth2Login()
-//                .loginPage("/login")
-//                .userInfoEndpoint()
-//                .userService(oauthUserService)
-//                .and()
-//                .defaultSuccessUrl("/list")
-//                .and()
-//                .logout().logoutSuccessUrl("/").permitAll()
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/403")
-        ;
     }
 
 
@@ -97,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // Cho phép truy cập REST API từ bên ngoài (domain khác)
     @Override
-    public void configure(WebSecurity web) throws Exception{
-        web.ignoring().antMatchers(HttpMethod.OPTIONS,"/**");
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 }

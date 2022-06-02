@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.example.doanweb.service.dto.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +21,7 @@ public class SecurityController {
 	@RequestMapping("/security/login/form")
 	public String loginForm( Model model) {
 		System.out.println("loginForm");
+		System.out.println("/security/login/form");
 		model.addAttribute("message","Vui lòng đăng nhập");
 		return "login/login";
 	}
@@ -28,16 +30,13 @@ public class SecurityController {
 	public String vaitro(HttpServletRequest req, Principal principal,Model model) {
 		System.out.println("success");
 		String username = principal.getName();
-		System.out.println("UserName: " + username);
-
 		User loginUser = (User) ((Authentication) principal).getPrincipal();
 		session.setAttribute("role",username);
 		String a =(String) session.getAttribute("role") ;
 		model.addAttribute("roleuser",a);
 		System.out.println(loginUser);
-		
-//		return "redirect:/admin/templates/index.html";
-		return "redirect:/";
+
+		return "redirect:/admin/templates/index.html";
 	}
 	
 	@RequestMapping("/security/login/error")
