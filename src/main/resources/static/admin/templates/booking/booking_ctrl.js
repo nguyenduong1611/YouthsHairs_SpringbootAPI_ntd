@@ -320,7 +320,7 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 
 		FuncMinDate() {
 			var input = document.getElementById("date1");
-			var dd = this.today.getDate() + 1;
+			var dd = this.today.getDate();
 			var mm = this.today.getMonth() + 1;
 			var yyyy = this.today.getFullYear();
 
