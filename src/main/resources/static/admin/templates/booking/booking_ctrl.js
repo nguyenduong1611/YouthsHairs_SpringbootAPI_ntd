@@ -448,7 +448,7 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 		return $scope.a;
 	}
 
-	//namnt stylist
+	//lay danh sach khach cho cat cua stylist
 	$scope.getDataBookingWaitting = function (stylistId){		
 		$http.get(`/rest/booking/bookingWaiting/${stylistId}?date=${$scope.getDate}`).then(resp=>{
 			$scope.bookingWaiting = resp.data;			
@@ -465,6 +465,7 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 		}		
 	}
 
+	//them cong viec cho stylist
 	$scope.setBookingCutting = function (booking){
 		$http.get(`/rest/booking/stylist/cutting/${booking.employee1.id}`).then(resp=>{
 
@@ -486,6 +487,8 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 		});
 
 	}
+	//lay timebooking da duoc dat cua stylist
+	//khong the chon vao timebooking do trong form cho xac nhan
 	$scope.getDisableTime=function (cid,date,bookingId){
 		var convertDate=moment($scope.formChoXacNhan.createDate).format('YYYY-MM-DD')
 		$http.get(`/rest/getAllTimeBookingDetail/getCheckTimeBooking?cid=${cid}&date=${convertDate}&bookingId=${bookingId}`).then(resp=>{
@@ -499,6 +502,8 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 			&&a.timeBookingId==timeId&&a.bookingId!=$scope.formChoXacNhan.id&& a.date == getDate)
 	}
 
+	//lay timebooking da duoc dat cua stylist
+	//khong the chon vao timebooking do trong form da xac nhan
 	$scope.getDisableTime1=function (cid,date,bookingId){
 		var convertDate=moment($scope.formCOM.createDate).format('YYYY-MM-DD')
 		$http.get(`/rest/getAllTimeBookingDetail/getCheckTimeBooking?cid=${cid}&date=${convertDate}&bookingId=${bookingId}`).then(resp=>{
@@ -512,6 +517,7 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 			&&a.timeBookingId==timeId&&a.bookingId!=$scope.formCOM.id&&a.date==getDate)
 	}
 
+	//tick hoan thanh cong viec cho stylist
 	$scope.tickDoneIAT = function(booking){
 		if(booking == null || booking.customer == null){
 			alert("Stylist đang không làm việc!!!")
@@ -543,6 +549,7 @@ app.controller("booking-ctrl",function($scope,$http,$timeout, $interval,$q){
 		}
 	}
 
+	//lay cac dich vu ma khach hang chon
 	$scope.showDetail=function (item){
 		$scope.cart.clear();
 		$scope.initialize();

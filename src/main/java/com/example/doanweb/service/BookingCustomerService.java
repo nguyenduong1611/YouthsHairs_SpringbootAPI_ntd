@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookingCustomerService {
 	BookingCustomerDTO AddInfoBookingCustomer(BookingCustomerDTO bookingCustomerDTO);
-	Booking bookingStatusIAT(Integer id);
+	Booking 	bookingStatusIAT(Integer id);
 	List<BookingIatDTO> bookingIAT();
 
     Booking checkBookingUCF(String phone);

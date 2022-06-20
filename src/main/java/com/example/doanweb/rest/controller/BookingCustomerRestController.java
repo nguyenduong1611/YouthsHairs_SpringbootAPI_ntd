@@ -32,7 +32,7 @@ public class BookingCustomerRestController {
     @Autowired
     SmsService smsService;
 
-
+    //post form booking from customer
     @PostMapping("rest/bookingCus")
     public ResponseEntity<BookingCustomerDTO> AddBookingInfo(@RequestBody BookingCustomerDTO bookingCustomerDTO) {
        bcService.AddInfoBookingCustomer(bookingCustomerDTO);
@@ -40,26 +40,29 @@ public class BookingCustomerRestController {
         System.out.println("so dien thoai la :" + sdt);
         SmsRequest smsRequest = new SmsRequest(bookingCustomerDTO.getPhone(),
                 "Xin chào " + bookingCustomerDTO.getFullName() + " Yourth Hairs xin thông báo lịch cắt tóc của bạn đã được ghi nhận. Cửa hàng sẽ gọi điện để xác nhận lần cuối, bạn vui lòng để ý điện thoại. Cảm ơn bạn đã lựa chọn dịch vụ của chúng tôi");
-       smsService.sendSms(smsRequest);
+//       smsService.sendSms(smsRequest);
        return new  ResponseEntity<BookingCustomerDTO>(bookingCustomerDTO,HttpStatus.OK);
     }
 
+    //lay danh sach khach hang cua stylist
     @GetMapping("rest/bookingCusByStylist/{id}")
     public Booking bookingCusByStylist(@PathVariable("id") Integer id) {
         return bcService.bookingStatusIAT(id);
     }
 
-
+    //lay danh sach khach hang dang duoc cat
     @GetMapping("rest/bookingIAT")
     public List<BookingIatDTO> bookingIAT(){
         return bcService.bookingIAT();
     }
 
+    //kiem tra trung lap
     @GetMapping("rest/checkBooking/{phone}")
     public Booking checkBooking(@PathVariable("phone") String phone){
         return bcService.checkBookingUCF(phone);
     }
-    
+
+    //add thong tin khach hang moi
     @PostMapping("rest/bookingContact")
     public ResponseEntity<BookingContactDTO> AddBookingInfo(@RequestBody BookingContactDTO bookingContactDTO) {
     	bookingContactService.AddInfoBookingCustomer(bookingContactDTO);
