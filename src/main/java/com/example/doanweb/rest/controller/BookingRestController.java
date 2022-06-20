@@ -60,31 +60,37 @@ public class BookingRestController {
         return bookingService.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
     }
 
+    //lay danh sach cho cat
     @GetMapping("/WFC")
     public List<Booking> getByStatusBooking() {
         return bookingService.findBookingByStatusbooking("WFC");
     }
 
+    //lay danh sach cho thanh toan
     @GetMapping("/WFP")
     public List<Booking> getByStatusBookingWFP() {
         return bookingService.findBookingByStatusbooking("WFP");
     }
 
+    //lay danh sach chua xac nhan
     @GetMapping("/UCF")
     public List<Booking> getByStatusBookingUCF() {
         return bookingService.findBookingByStatusbooking("UCF");
     }
 
+    //lay danh sach da thanh toan
     @GetMapping("/CPM")
     public List<Booking> getByStatusBookingCPM() {
         return bookingService.findBookingByStatusbooking("CPM");
     }
 
+    //lay danh sach huy dat lich
     @GetMapping("/CAN")
     public List<Booking> getByStatusBookingCAN() {
         return bookingService.findBookingByStatusbooking("CAN");
     }
 
+    //lay danh sach da xac nhan
     @GetMapping("/COM")
     public List<Booking> getByStatusBookingCOM() {
         return bookingService.findBookingByStatusbooking("COM");

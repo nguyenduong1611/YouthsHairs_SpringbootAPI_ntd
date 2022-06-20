@@ -14,6 +14,7 @@ public class AccountRestcontroller {
 	
 	@Autowired
 	AccountService accountService;
+	//get all account
 	@GetMapping("/rest/account")
 	public List<Account> getAll() {
 		return accountService.findAll();
