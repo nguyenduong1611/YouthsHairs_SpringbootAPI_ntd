@@ -260,7 +260,7 @@ public class BookingServiceImpl implements BookingService {
 					bookingDetailDAO.save(bookingDetail);
 				}
 			if (bookingDTO.getListTime()!=null){
-				timeBookingDetailDAO.delete(bookingDTO.getId());
+//				timeBookingDetailDAO.delete(bookingDTO.getId());
 				for(int i=0; i<bookingDTO.getListTime().size();i++ ){
 					TimeBookingDetail timeBookingDetailDetail = new TimeBookingDetail();
 					timeBookingDetailDetail.setBookingId(booking1.getId());
